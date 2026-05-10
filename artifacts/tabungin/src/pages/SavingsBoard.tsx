@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { supabase } from "../lib/supabase";
-import { encrypt, decrypt, hashKey } from "../lib/crypto";
+import { encrypt, decrypt, hashKey, creatorMarkerKey } from "../lib/crypto";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -634,8 +634,8 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   isCreator,
   onLogout,
 }) => {
-  const canEdit = isCreator;
   const groupId = hashKey(groupKey);
+  const creatorKey = creatorMarkerKey(groupKey);
   const emojiKey = `tabungin_emojis_${groupId}`;
   const targetKey = `tabungin_target_${groupId}`;
   const themeKey = "tabungin_theme";
@@ -698,7 +698,6 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   );
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const importRef = useRef<HTMLInputElement>(null);
-
   /* ── fetch ── */
   const fetchEntries = useCallback(async () => {
     setLoading(true);
@@ -765,6 +764,14 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
     setTimeout(() => setSuccess(null), 2500);
   };
 
+  const requireCreator = () => {
+    const allowed = isCreator || localStorage.getItem(creatorKey) === "creator";
+    if (!allowed) {
+      setError("Hanya pembuat kode pertama yang bisa mengubah data ini.");
+    }
+    return allowed;
+  };
+
   const saveEmoji = (name: string, emoji: string) => {
     const u = { ...memberEmojis, [name]: emoji };
     setMemberEmojis(u);
@@ -802,6 +809,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
 
   /* ── CRUD ── */
   const handleAddEntry = async (forName: string) => {
+    if (!requireCreator()) return;
     const amt = Number(addAmount);
     if (!amt || amt <= 0) return;
     setSubmitting(true);
@@ -835,6 +843,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   };
 
   const handleAddNewPerson = async () => {
+    if (!requireCreator()) return;
     const name = newPersonName.trim();
     const amt = Number(addAmount);
     if (!name || !amt || amt <= 0) return;
@@ -873,6 +882,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   };
 
   const handleSaveEdit = async () => {
+    if (!requireCreator()) return;
     if (!editingId) return;
     const amt = Number(editAmount);
     if (!amt || amt <= 0) return;
@@ -907,6 +917,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   };
 
   const handleDelete = async (id: string) => {
+    if (!requireCreator()) return;
     if (!confirm("Yakin mau hapus catatan ini? Gak bisa di-undo lho 😅"))
       return;
     setSubmitting(true);
@@ -947,6 +958,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   };
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!requireCreator()) return;
     const file = e.target.files?.[0];
     if (!file) return;
     try {
@@ -985,6 +997,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   };
 
   const handleReset = async () => {
+    if (!requireCreator()) return;
     setSubmitting(true);
     try {
       if (!supabase) throw new Error("Supabase tidak terkonfigurasi");
@@ -1283,7 +1296,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
             position: "relative",
           }}
         >
-          {canEdit && (
+          {requireCreator() && (
             <button
               onClick={openEditTarget}
               style={{
@@ -1965,7 +1978,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                                   >
                                     {formatIDR(entry.amount)}
                                   </div>
-                                  {canEdit && (
+                                  {requireCreator() && (
                                     <button
                                       onClick={() => {
                                         setEditingId(entry.id);
@@ -1986,7 +1999,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                                       <Edit2 size={12} />
                                     </button>
                                   )}
-                                  {canEdit && (
+                                  {requireCreator() && (
                                     <button
                                       onClick={() => handleDelete(entry.id)}
                                       className="btn btn-secondary"
@@ -2097,7 +2110,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                             </button>
                           </div>
                         </div>
-                      ) : canEdit ? (
+                      ) : requireCreator() ? (
                         <button
                           type="button"
                           onClick={() => {
@@ -2131,7 +2144,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
 
         {/* Add new person */}
         <div style={{ marginTop: "0.75rem" }}>
-          {canEdit &&
+          {requireCreator() &&
             (showNewPersonForm ? (
               <div
                 className="card animate-fade-in"

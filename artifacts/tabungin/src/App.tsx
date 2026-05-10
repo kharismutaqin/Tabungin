@@ -1,15 +1,10 @@
 import { useState, useEffect } from 'react'
 import { GroupEntry } from './pages/GroupEntry'
 import { SavingsBoard } from './pages/SavingsBoard'
-import { hashKey } from './lib/crypto'
+import { creatorMarkerKey } from './lib/crypto'
 
 const SESSION_KEY = 'tabungin_group_key'
 const THEME_KEY   = 'tabungin_theme'
-
-/** Returns the localStorage key that marks this device as the creator of a group. */
-function creatorFlagKey(rawKey: string): string {
-  return `tabungin_creator_${hashKey(rawKey)}`
-}
 
 function App() {
   const [groupKey,  setGroupKey]  = useState<string | null>(null)
@@ -28,9 +23,9 @@ function App() {
 
   const handleEnter = (key: string) => {
     sessionStorage.setItem(SESSION_KEY, key)
-    const flag = creatorFlagKey(key)
+    const flag = creatorMarkerKey(key)
     if (!localStorage.getItem(flag)) {
-      localStorage.setItem(flag, 'yes')
+      localStorage.setItem(flag, 'creator')
     }
     setGroupKey(key)
   }
@@ -40,7 +35,7 @@ function App() {
     setGroupKey(null)
   }
 
-  const isCreator = groupKey ? !!localStorage.getItem(creatorFlagKey(groupKey)) : false
+  const isCreator = groupKey ? localStorage.getItem(creatorMarkerKey(groupKey)) === 'creator' : false
 
   if (!groupKey) return <GroupEntry onEnter={handleEnter} />
   return <SavingsBoard groupKey={groupKey} isCreator={isCreator} onLogout={handleLogout} />

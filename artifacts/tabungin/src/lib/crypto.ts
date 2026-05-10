@@ -18,3 +18,7 @@ export function decrypt<T>(ciphertext: string, key: string): T | null {
 export function hashKey(key: string): string {
   return CryptoJS.SHA256(key).toString(CryptoJS.enc.Hex)
 }
+
+export function creatorMarkerKey(groupKey: string): string {
+  return `tabungin_creator_${hashKey(groupKey)}`
+}
