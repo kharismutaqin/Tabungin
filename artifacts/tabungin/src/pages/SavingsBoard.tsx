@@ -634,6 +634,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   isCreator,
   onLogout,
 }) => {
+  const canEdit = isCreator;
   const groupId = hashKey(groupKey);
   const emojiKey = `tabungin_emojis_${groupId}`;
   const targetKey = `tabungin_target_${groupId}`;
@@ -1282,7 +1283,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
             position: "relative",
           }}
         >
-          {isCreator && (
+          {canEdit && (
             <button
               onClick={openEditTarget}
               style={{
@@ -1964,7 +1965,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                                   >
                                     {formatIDR(entry.amount)}
                                   </div>
-                                  {isCreator && (
+                                  {canEdit && (
                                     <button
                                       onClick={() => {
                                         setEditingId(entry.id);
@@ -1985,7 +1986,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                                       <Edit2 size={12} />
                                     </button>
                                   )}
-                                  {isCreator && (
+                                  {canEdit && (
                                     <button
                                       onClick={() => handleDelete(entry.id)}
                                       className="btn btn-secondary"
@@ -2096,7 +2097,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                             </button>
                           </div>
                         </div>
-                      ) : isCreator ? (
+                      ) : canEdit ? (
                         <button
                           type="button"
                           onClick={() => {
@@ -2130,7 +2131,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
 
         {/* Add new person */}
         <div style={{ marginTop: "0.75rem" }}>
-          {isCreator &&
+          {canEdit &&
             (showNewPersonForm ? (
               <div
                 className="card animate-fade-in"
