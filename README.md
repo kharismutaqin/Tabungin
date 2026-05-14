@@ -1,7 +1,7 @@
 # Tabungin
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kharismutaqin/tabungin/main/.github/assets/piggy.svg" width="120" alt="Logo Tabungin">
+  <img src="https://raw.githubusercontent.com/kharismutaqin/tabungin/main/.github/assets/Rooster.svg" width="120" alt="Logo Tabungin">
 </p>
 
 Tabungin adalah web app buat bantu kelompok nyatet tabungan bareng, rapi, simpel, dan tetap privat. Semua data penting dienkripsi di browser sebelum disimpan, jadi isinya nggak kelihatan mentah-mentah di database.
