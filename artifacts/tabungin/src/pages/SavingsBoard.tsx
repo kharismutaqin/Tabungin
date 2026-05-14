@@ -38,6 +38,29 @@ interface GroupTarget {
   name: string;
   amount: number;
 }
+
+const THEME_SHADOWS: Record<string, { primary: string; hover: string }> = {
+  pink: {
+    primary: "0 4px 18px rgba(244, 114, 182, 0.45)",
+    hover: "0 8px 28px rgba(236, 72, 153, 0.58)",
+  },
+  purple: {
+    primary: "0 4px 18px rgba(167, 139, 250, 0.45)",
+    hover: "0 8px 28px rgba(124, 58, 237, 0.58)",
+  },
+  blue: {
+    primary: "0 4px 18px rgba(96, 165, 250, 0.45)",
+    hover: "0 8px 28px rgba(37, 99, 235, 0.58)",
+  },
+  green: {
+    primary: "0 4px 18px rgba(74, 222, 128, 0.45)",
+    hover: "0 8px 28px rgba(22, 163, 74, 0.58)",
+  },
+  orange: {
+    primary: "0 4px 18px rgba(251, 146, 60, 0.45)",
+    hover: "0 8px 28px rgba(234, 88, 12, 0.58)",
+  },
+};
 interface SavingsBoardProps {
   groupKey: string;
   isCreator: boolean;
@@ -698,6 +721,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
   );
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const importRef = useRef<HTMLInputElement>(null);
+  const themeShadows = THEME_SHADOWS[activeTheme] || THEME_SHADOWS.pink;
   /* ── fetch ── */
   const fetchEntries = useCallback(async () => {
     setLoading(true);
@@ -797,6 +821,14 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
     localStorage.setItem(targetKey, JSON.stringify(t));
     setEditingTarget(false);
     setShowTargetEmojiPicker(false);
+  };
+
+  const themedButtonShadowStyle = {
+    boxShadow: themeShadows.primary,
+  };
+
+  const themedButtonHoverStyle = {
+    boxShadow: themeShadows.hover,
   };
 
   const openEditTarget = () => {
@@ -1294,6 +1326,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
             color: "white",
             padding: "1.25rem 1.375rem",
             position: "relative",
+            boxShadow: themeShadows.primary,
           }}
         >
           {requireCreator() && (
@@ -1313,6 +1346,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                 justifyContent: "center",
                 cursor: "pointer",
                 color: "white",
+                boxShadow: themeShadows.primary,
               }}
               title="Edit target"
             >
@@ -1441,6 +1475,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                   fontSize: "0.82rem",
                   cursor: "pointer",
                   fontFamily: "var(--font-sans)",
+                  boxShadow: themeShadows.primary,
                 }}
               >
                 🎯 Set Target Tabungan
@@ -1564,7 +1599,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
               type="button"
               onClick={saveTarget}
               className="btn btn-primary w-full"
-              style={{ fontSize: "0.85rem" }}
+                style={{ fontSize: "0.85rem", boxShadow: themeShadows.primary }}
             >
               Simpan Target 🎯
             </button>
@@ -2271,7 +2306,13 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                     onClick={handleAddNewPerson}
                     className="btn btn-primary w-full"
                     disabled={submitting}
-                    style={{ fontSize: "0.875rem" }}
+                    style={{ fontSize: "0.875rem", boxShadow: themeShadows.primary }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = themeShadows.hover;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = themeShadows.primary;
+                    }}
                   >
                     {submitting ? "Nyimpen..." : "Tambah 🎉"}
                   </button>
@@ -2294,6 +2335,13 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
                   justifyContent: "center",
                   gap: 7,
                   fontSize: "0.95rem",
+                  ...themedButtonShadowStyle,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = themeShadows.hover;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = themeShadows.primary;
                 }}
               >
                 <UserPlus size={17} /> Tambah Anggota Baru

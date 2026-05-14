@@ -24,6 +24,14 @@ export const GroupEntry: React.FC<GroupEntryProps> = ({ onEnter }) => {
 
   const activeTheme = localStorage.getItem("tabungin_theme") || "pink";
   const iconFilter = THEME_ICON_FILTER[activeTheme] || THEME_ICON_FILTER.pink;
+  const themeShadow =
+    ({
+      pink: "0 4px 18px rgba(244, 114, 182, 0.45)",
+      purple: "0 4px 18px rgba(167, 139, 250, 0.45)",
+      blue: "0 4px 18px rgba(96, 165, 250, 0.45)",
+      green: "0 4px 18px rgba(74, 222, 128, 0.45)",
+      orange: "0 4px 18px rgba(251, 146, 60, 0.45)",
+    }[activeTheme] || "0 4px 18px rgba(244, 114, 182, 0.45)");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,8 +58,8 @@ export const GroupEntry: React.FC<GroupEntryProps> = ({ onEnter }) => {
             objectFit: "contain",
             filter: iconFilter,
             transition: "filter 0.4s ease, box-shadow 0.4s ease",
-            boxShadow: "0 10px 24px var(--shadow-primary-color)",
-            borderRadius: "9999px",
+            boxShadow: "0 5px 10px var(--shadow-primary-color)",
+            borderRadius: "10px",
             margin: "0 auto 1.5rem",
           }}
         />
@@ -121,7 +129,7 @@ export const GroupEntry: React.FC<GroupEntryProps> = ({ onEnter }) => {
           <button
             type="submit"
             className="btn btn-primary w-full"
-            style={{ fontSize: "1.05rem" }}
+            style={{ fontSize: "1.05rem", boxShadow: themeShadow }}
           >
             🚀 Masuk Sekarang
           </button>
