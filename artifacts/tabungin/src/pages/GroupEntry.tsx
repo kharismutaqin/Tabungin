@@ -49,7 +49,9 @@ export const GroupEntry: React.FC<GroupEntryProps> = ({ onEnter }) => {
             display: "block",
             objectFit: "contain",
             filter: iconFilter,
-            transition: "filter 0.4s ease",
+            transition: "filter 0.4s ease, box-shadow 0.4s ease",
+            boxShadow: "0 10px 24px var(--shadow-primary-color)",
+            borderRadius: "9999px",
             margin: "0 auto 1.5rem",
           }}
         />
