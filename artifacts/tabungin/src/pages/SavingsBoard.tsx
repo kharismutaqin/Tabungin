@@ -76,7 +76,7 @@ const THEMES = [
   { id: "orange", label: "🧡 Orange", color: "#FB923C" },
 ];
 
-/* CSS filter to colorize the Tabungin pig SVG per theme.
+/* CSS filter to colorize the Badoncek pig SVG per theme.
    Pig base hue ≈ 4° (salmon). Rotating to match each theme's primary hue. */
 const THEME_ICON_FILTER: Record<string, string> = {
   pink: "hue-rotate(0deg) saturate(1.3) brightness(1.05)",
@@ -1084,7 +1084,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
           marginBottom: "1.125rem",
         }}
       >
-        {/* Logo — Tabungin.svg colorized per theme */}
+        {/* Logo — colorized per theme */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <img
             src={tabunginSvg}
@@ -1094,7 +1094,7 @@ export const SavingsBoard: React.FC<SavingsBoardProps> = ({
             className="tabungin-logo"
             style={{ filter: THEME_ICON_FILTER[activeTheme] }}
           />
-          <h2 style={{ margin: 0 }}>Tabungin</h2>
+          <h2 style={{ margin: 0 }}>Badoncek</h2>
         </div>
 
         {/* Icon-only action buttons */}

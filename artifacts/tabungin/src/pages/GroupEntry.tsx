@@ -64,7 +64,7 @@ export const GroupEntry: React.FC<GroupEntryProps> = ({ onEnter }) => {
           }}
         />
 
-        <h1 style={{ fontSize: "2rem", marginBottom: "0.4rem" }}>Tabungin</h1>
+        <h1 style={{ fontSize: "2rem", marginBottom: "0.4rem" }}>Badoncek</h1>
         <p
           style={{
             marginBottom: "2rem",
