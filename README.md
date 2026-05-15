@@ -8,7 +8,7 @@ Badoncek adalah web app buat bantu kelompok nyatet tabungan bareng, rapi, simpel
 
 ## Screenshot
 
-![Screenshot Tabungin](https://raw.githubusercontent.com/kharismutaqin/tabungin/main/.github/assets/Screenshots.png)
+![Screenshot Tabungin](https://raw.githubusercontent.com/kharismutaqin/tabungin/badoncek/.github/assets/Screenshots.png)
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f52e/512.gif" alt="🔮" width="32" height="32"> Fitur Utama
 - <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2795/512.gif" alt="➕" width="25" height="25" /> Tambah anggota grup
